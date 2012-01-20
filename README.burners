@@ -1,0 +1,12 @@
+# burn dvd/cd (also try burncd)
+mkisofs -J -R -o my_image.iso some_directory/ # joliet und rockridge
+cdrecord scanbus # will show the lun upon which the drive is presenting
+cdrecord dev=0,0,0 my_image.iso
+
+# mount an ISO as a cdrom
+mdconfig -a -t vnode -f /path/to/some.iso -u 3
+mount -t cd9660 /dev/md3 /media/cdrom
+
+# and back out with
+umount /media/cdrom
+mdconfig -d -u3

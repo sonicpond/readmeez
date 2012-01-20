@@ -1,0 +1,58 @@
+# regarding resolutions
+
+typically...
+NTSC (widescreen) = 720x480 
+PAL (fullscreen)  = 720x576
+
+but these are variable.  for example, the big lebowski is 720x384
+
+any scaling (-vf scale=x:y) MUST have both values be multiples of 16
+for playback on DVD player x val CANNOT exceed 720
+
+you should also turn on harddup to ensure best a/v sync:
+
+-vf scale=720:-10,harddup somefile.vob
+
+# typical usage to create a standard xvid avi from some other format
+# (note, mkv is an awesome format, but my shitty old dvd player will only play data xvid files)
+mencoder -oac mp3lame -ovc xvid -xvidencopts pass=2:bitrate=128 -vf scale=720:-10,harddup -o outfile.avi infile.mkv
+
+# turn off subtitles with
+-nosub
+
+# turn on and identify which subtitle to use
+-sid0
+
+# convert mkv to avi
+mencoder source.mkv -oac mp3lame -ovc copy -o output.avi
+
+# cat a bunch of mp4 together to make a new longer one
+mencoder -oac copy -ovc copy *.mp4 -o output.mp4
+
+# re-encode an MP4 file to XViD with very high sample rate and MP3 sound
+mencoder -oac mp3lame -ovc xvid -o somefile.avi -xvidencopts pass=2:bitrate=1000 somefile.mp4
+
+# same but scale it to 720x576 (PAL)  note that ntsc is 720x480
+mencoder -oac mp3lame -ovc xvid -xvidencopts pass=2:bitrate=3000 -vf scale=720:576 -o outfile.avi infile.mp4
+
+# same but scale it and keep the aspect ratio (whatever it might be)
+mencoder -oac mp3lame -ovc xvid -xvidencopts pass=2:bitrate=128 -vf scale=720:-10,harddup -o outfile.avi infile.mkv
+
+# cropping
+discover crop values by running # mplayer -vf cropdetect somefile.avi
+
+then add something like # -vf crop=320:176:0:32
+to your mencoder opts
+
+# repair matroska (mkv) files 
+mkvmerge -i somefile.mkv # this will show track id vals for video and audio.
+mkvextract tracks somefile.mkv 1:somefile.video 2:somefile.audio
+mkvmerge -o somefile_repaired.mkv somefile.video somefile.audio
+
+# split into two parts
+mencoder -oac copy -ovc copy -o out.avi -endpos 01:00:00 in.avi
+mencoder -oac copy -ovc copy -o out.avi -ss 01:00:00 in.avi
+
+# rip audio with mplayer
+mplayer -quiet some_video.mp4 -ao pcm:fast:file=out.wav -vc dummy -vo null -channels 2
+lame out.wav

@@ -1,0 +1,24 @@
+# if for some incomprehensible reason you're forced to run windows on your workstation, install cygwin
+
+# install everything
+# export DISPLAY="localhost:0.0"
+# wmaker.inst to setup windowmaker
+# startx -- -keyhook -nodecoration
+
+# it would be nice if "keyhook" (catch alt+tab instead of letting windows catch it) would work with fullscreen, but it doesn't. 
+# "nodecoration" is practically fullscreen and is an ok compromise.
+
+# xterm with inconsolata is pretty but the scrollbar behaviour is odd. 
+# urxvt is much better. set nice colors in .Xdefaults like this:
+
+# .Xdefaults
+URxvt.font: xft:Inconsolata:size=14:antialias=true:hinting=true
+URxvt.boldFont: xft:Inconsolata:bold:size=14:antialias=true:hinting=true
+URxvt.loginShell: true
+URxvt.cursorColor: #ff0000
+URxvt.pointerColor: #dc74d1
+URxvt.background: #000000
+URxvt.foreground: #00ff00
+URxvt.savelines: 9999
+URxvt.scrollBar: true
+URxvt.scrollBar_right: true
