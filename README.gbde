@@ -29,5 +29,5 @@ fsck -p -t ffs /dev/da0.bde
 mount /dev/da0.bde /media/RED
 
 # when finished
-umount /dev/da0.bde /media/RED
-gbde detach /dev/da0 -l /etc/gbde/da0.lock
+umount /dev/da0.bde 
+gbde detach /dev/da0 
