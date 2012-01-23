@@ -1,0 +1,33 @@
+GBDE SETUP
+----------
+# gbde needs to be loaded into the kernel
+kld_load geom_bde or kernalize with "options GEOM_BDE"
+
+# create a place for keys
+mkdir -p /etc/gbde
+
+# initialize the device 
+gbde init /dev/da0 -i -L /etc/gbde/da0.lock
+(set sector_size to 2048)
+
+# attach to kernel for access
+gbde attach /dev/da0 -l /etc/gbde/da0.lock
+
+# format the drive (this is a new drive, right?)
+newfs -U -O2 /dev/da0.bde
+
+
+STANDARD USAGE
+--------------
+# attach to kernel
+gbde attach /dev/da0 -l /etc/gbde/da0.lock
+
+# fsck 
+fsck -p -t ffs /dev/da0.bde
+
+# mount
+mount /dev/da0.bde /media/RED
+
+# when finished
+umount /dev/da0.bde /media/RED
+gbde detach /dev/da0 -l /etc/gbde/da0.lock
