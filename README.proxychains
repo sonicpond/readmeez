@@ -1,0 +1,31 @@
+# sometimes you find yourself in an oppressive network that
+# filters outbound traffic...well, oppressively. 
+# sometimes you just want some privacy. 
+# FreeBSD can help with some proxy action
+
+# have a server out in the real world that is your friend. 
+# if the "oppressive network" doesn't allow any outbound traffic, you're boned.
+# else find out what port "oppressive network" does allow outbound. 
+# let's say we've discovered that "oppressive network" allows port 20000 outbound traffic.
+# cool. "oppressed computer" has hope.
+
+# set friendly server's sshd to listen on 22000 and be sure that tcp forwarding is enabled
+AllowTcpForwarding yes
+
+# on "oppressed computer" install proxychains
+cd /usr/ports/net/proxychains && make clean && make install clean
+
+# edit /usr/local/etc/proxychains.conf 
+[ProxyList]
+socks5  127.0.0.1 1080
+
+# start the tunnel on "oppressed computer"
+ssh -TNfD 1080 -oPort=22000 me@friendlyserver.tld
+
+# is it running?
+sockstat -4 | grep 1080
+root     ssh        16278 5  tcp4   127.0.0.1:1080        *:*  # awwww yeah!
+
+# begin surfing in cool comfort
+proxychains firefox
+

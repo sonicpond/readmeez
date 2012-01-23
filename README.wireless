@@ -1,0 +1,45 @@
+# freebsd wireless
+# see also http://freebsd.org/handbook
+
+# put the following into /etc/rc.conf for initialization at startup
+# this would work for a wireless nic recognized by the ral driver
+wlans_ral0="wlan0"
+ifconfig_wlan0="DHCP"
+
+# to manually initialize that wireless nic
+ifconfig wlan0 create wlandev ral0 # see also "man ral"
+
+# start with a basic config at /etc/wpa_supplicant.conf
+ctrl_interface=/var/run/wpa_supplicant
+ctrl_interface_group=wheel 
+
+# for secured networks, put an entry into your config file thusly
+wpa_passphrase SOMENETWORK somepassphrase >> /etc/wpa_supplicant.conf
+
+# if you are in a coffee house in Lincoln 
+# and they have an open network called "GoHuskers"
+# just manually add the following to wpa_supplicant.conf
+network={
+  ssid="GoHuskers"
+  priority=1
+  key_mgmt=NONE
+}
+
+# start the wireless manager (put this into /etc/rc.local for automatic love at startup)
+wpa_supplicant -i wlan0 -D bsd -B -c /etc/wpa_supplicant.conf
+
+# can you see any wireless networks?
+ifconfig wlan0 scan
+
+# once the supplicant has connected (associated) your wireless nic to a network 
+# get an addr
+dhclient wlan0
+
+# i don't use the cli much but it's kinda cool
+wpa_cli 
+  > reconfigure # to HUP and re-read config 
+  > status 
+  > get_network
+  > set_network
+
+# that's it. dig yahoo.com, proxychains firefox, nzbget -s, etc.
