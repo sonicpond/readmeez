@@ -1,7 +1,7 @@
 GBDE SETUP
 ----------
 # gbde needs to be loaded into the kernel
-kld_load geom_bde or kernalize with "options GEOM_BDE"
+kldload geom_bde or kernalize with "options GEOM_BDE"
 
 # create a place for keys
 mkdir -p /etc/gbde
