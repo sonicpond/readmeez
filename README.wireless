@@ -1,5 +1,5 @@
 # freebsd wireless
-# see also http://freebsd.org/handbook
+# see also http://www.freebsd.org/doc/en_US.ISO8859-1/books/handbook/network-wireless.html
 
 # put the following into /etc/rc.conf for initialization at startup
 # this would work for a wireless nic recognized by the ral driver
