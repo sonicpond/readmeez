@@ -1,15 +1,16 @@
 # sometimes you find yourself in an oppressive network that
-# filters outbound traffic...well, oppressively. 
+# filters outbound traffic...oppressively. 
 # sometimes you just want some privacy. 
 # FreeBSD can help with some proxy action
 
-# have a server out in the real world that is your friend. 
-# if the "oppressive network" doesn't allow any outbound traffic, you're boned.
-# else find out what port "oppressive network" does allow outbound. 
-# let's say we've discovered that "oppressive network" allows port 20000 outbound traffic.
+# have a bsd server out in the real world which is friendly.
+# if the "oppressive network" doesn't allow any outbound traffic at all, you're boned.
+# else find out what port "oppressive network" *does* allow outbound. 
+# let's say we've discovered that "oppressive network" allows port 22000 outbound.
 # cool. "oppressed computer" has hope.
 
-# set friendly server's sshd to listen on 22000 and be sure that tcp forwarding is enabled
+# set friendly server's sshd to listen on 22000 and 
+# make sure that tcp forwarding is enabled in /etc/ssh/sshd_config
 AllowTcpForwarding yes
 
 # on "oppressed computer" install proxychains
